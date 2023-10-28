@@ -21,7 +21,6 @@ impl Default for CircleBundle{
     }
 }
 
-#[inline]
 fn spawn_cirlce(
     commands: &mut Commands, 
     asset_server: &Res<AssetServer>,

@@ -1,10 +1,11 @@
 mod InputHandles;
+mod Editor;
 
 use bevy::prelude::*;
 
-include!("Circle.rs");
-include!("InputHandles.rs");
-//include!("Editor.rs")
+
+
+include!("Editor.rs");
 
 fn inputTest(
     mut clicked : EventReader<MouseEvent>)
@@ -21,11 +22,15 @@ fn inputTest(
     } 
 }
 
+fn add_cam(mut commands: Commands){
+    commands.spawn(Camera2dBundle::default());
+}
+
 fn main() {
     App::new()
     .add_plugins(DefaultPlugins)
-    //.add_systems(Startup, add_cam)
-    .add_systems(Update,(mouse_pressed,mouse_handle,inputTest))
+    .add_systems(Startup, add_cam)
+    .add_systems(Update,(mouse_pressed,mouse_handle,editor_inputs,inputTest))
     .add_event::<MouseEvent>()
     .run();
 }

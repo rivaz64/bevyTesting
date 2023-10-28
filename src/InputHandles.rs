@@ -27,11 +27,13 @@ fn mouse_handle(
     q_windows: Query<&Window, With<PrimaryWindow>>,
 ){
     match q_windows.single().cursor_position(){
-        Some(mousePos)=>{
+        Some(mut mousePos)=>{
+            mousePos.x-=q_windows.single().width()*0.5;
+            mousePos.y=q_windows.single().height()*0.5-mousePos.y;
             let now = Instant::now();
             for (ent,&ref pressed) in query.iter_mut(){
                 let timePressed = pressed.0;
-                if(now.duration_since(timePressed)<Duration::from_millis(100)){
+                if(now.duration_since(timePressed)<Duration::from_millis(200)){
                     for &released in input.get_just_released(){
                         mouseEvents.send(MouseEvent{isHold:false,pos:mousePos});
                         commands.entity(ent).despawn();
