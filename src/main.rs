@@ -1,20 +1,23 @@
 mod InputHandles;
 
 use bevy::prelude::*;
-use bevy::window::PrimaryWindow;
 
 include!("Circle.rs");
 include!("InputHandles.rs");
+//include!("Editor.rs")
 
 fn inputTest(
-    mut clicked : EventReader<MouseClick>,
-    mut handle : EventReader<MouseDown>)
+    mut clicked : EventReader<MouseEvent>)
 {
     for click in clicked.iter(){
-        println!("clicked");
-    } 
-    for handl in handle.iter(){
-        println!("handle");
+        let mut ans = "".to_string();
+        if(click.isHold){
+            ans.push_str("holding at ");
+        }
+        else{
+            ans.push_str("click at ");
+        }
+        println!("{}", ans+&click.pos.to_string());
     } 
 }
 
@@ -23,7 +26,6 @@ fn main() {
     .add_plugins(DefaultPlugins)
     //.add_systems(Startup, add_cam)
     .add_systems(Update,(mouse_pressed,mouse_handle,inputTest))
-    .add_event::<MouseClick>()
-    .add_event::<MouseDown>()
+    .add_event::<MouseEvent>()
     .run();
 }
