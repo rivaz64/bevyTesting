@@ -14,7 +14,7 @@ fn mouse_pressed(
     mut commands: Commands,
     input: Res<Input<MouseButton>>
 ){
-    for &MouseButton in input.get_just_pressed(){
+    if input.just_pressed(MouseButton::Right){
         commands.spawn(MousePressed(Instant::now()));
     }
 }
@@ -46,6 +46,7 @@ fn mouse_handle(
                     }
                 }
             }
+            
         }
         None =>{}
     }
