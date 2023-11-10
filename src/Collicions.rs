@@ -12,5 +12,5 @@ fn collicionCircleCircle(circle1:  Transform, circle2:  Transform)->bool
 }
 
 fn collicionPlaneCirlce(circle:  Transform, plane:  Transform)->bool{
-    circle.translation.dot(plane.forward())-plane.translation.length()<circle.scale.x*0.5
+    (circle.translation.dot(plane.up())-plane.translation.dot(plane.up())).abs()<circle.scale.x*0.5
 }
