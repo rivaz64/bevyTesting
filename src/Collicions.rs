@@ -6,6 +6,14 @@ struct Collicion{
     depth : f32
 }
 
+type Overlap = fn(Transform,Transform) -> bool;
+type CollicionDynamic = fn(Transform,Transform) -> Option<(Collicion,Collicion)>;
+type CollicionStatic = fn(Transform,Transform) -> Option<Collicion>;
+type CallbackDynamic = fn(&mut Transform,&mut Transform,Collicion,Collicion);
+type CallbackStatic = fn(&mut Transform,Collicion);
+type CollicionDynamicCallback = fn(&mut Transform,&mut Transform,CallbackDynamic);
+type CollicionStaticCallback = fn(Transform,Transform,CallbackStatic);
+
 fn overlap_point_sphere(point: Vec3, sphere:  Transform)->bool
 {
     let size = sphere.scale.x*0.5;

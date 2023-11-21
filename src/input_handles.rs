@@ -6,7 +6,7 @@ struct MousePressed(Instant);
 
 #[derive(Event)]
 struct MouseEvent{
-    isHold:bool,
+    is_hold:bool,
     pos:Vec2,
 }
 
@@ -23,7 +23,7 @@ fn mouse_handle(
     mut commands: Commands,
     input: Res<Input<MouseButton>>,
     mut query : Query<(Entity, &MousePressed)>,
-    mut mouseEvents : EventWriter<MouseEvent>,
+    mut mouse_events : EventWriter<MouseEvent>,
     q_windows: Query<&Window, With<PrimaryWindow>>,
 ){
     match q_windows.single().cursor_position(){
@@ -33,14 +33,14 @@ fn mouse_handle(
             let now = Instant::now();
             for (ent,&ref pressed) in query.iter_mut(){
                 let timePressed = pressed.0;
-                if(now.duration_since(timePressed)<Duration::from_millis(200)){
+                if now.duration_since(timePressed)<Duration::from_millis(200) {
                     for &released in input.get_just_released(){
-                        mouseEvents.send(MouseEvent{isHold:false,pos:mousePos});
+                        mouse_events.send(MouseEvent{is_hold:false,pos:mousePos});
                         commands.entity(ent).despawn();
                     }
                 }
                 else{
-                    mouseEvents.send(MouseEvent{isHold:true,pos:mousePos});
+                    mouse_events.send(MouseEvent{is_hold:true,pos:mousePos});
                     for &released in input.get_just_released(){
                         commands.entity(ent).despawn();
                     }
