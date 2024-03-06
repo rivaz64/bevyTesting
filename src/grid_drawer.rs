@@ -33,7 +33,7 @@ impl GridDrawer{
         for i in 0..(x+1){
             let new_child = commands.spawn(SpriteBundle{
                 transform: Transform{
-                    translation: Vec3 { x: (i as f32)-(x as f32)/2.0, y: (0.0), z: (0.0) },
+                    translation: Vec3 { x: (i as f32)/*-(x as f32)/2.0*/, y: (y as f32)/2.0, z: (0.0) },
                     rotation:Quat::from_rotation_x(0.0), 
                     scale: Vec3 { x: (1.0/6.0), y: (y as f32), z: (1.0) }},
                 ..Default::default()
@@ -43,7 +43,7 @@ impl GridDrawer{
         for i in 0..(y+1){
             let new_child = commands.spawn(SpriteBundle{
                 transform: Transform{
-                    translation: Vec3 { x: (0.0), y: (i as f32)-(y as f32)/2.0, z: (0.0) },
+                    translation: Vec3 { x: (x as f32)/2.0, y: (i as f32)/*-(y as f32)/2.0*/, z: (0.0) },
                     rotation:Quat::from_rotation_x(0.0), 
                     scale: Vec3 { x: (x as f32), y: (1.0/6.0), z: (1.0) }},
                 ..Default::default()

@@ -4,7 +4,7 @@ use std::mem::MaybeUninit;
 struct Cell<const N: usize>where
 {
     count: usize,
-    data : [*mut Transform; N],
+    data : [usize; N],
 }
 
 #[derive(Component)]
@@ -16,6 +16,25 @@ struct Grid2d<const N:usize>{
     callback : CallbackDynamic
 }
 
+#[derive(Bundle)]
+struct Grid2dBundle<const N: usize>{
+    grid : Grid2d::<N>,
+    spatial : SpatialBundle
+}
+/* 
+impl<const N:usize> Default for Grid2dBundle<N>{
+    fn default() -> Grid2dBundle<N>{
+        Grid2dBundle::<N>{
+            grid_drawer : Grid2dBundle::<N>{
+                extent_x:1,
+                extent_y:1,
+                cells
+            },
+            spatial :  Default::default()
+        }
+    }
+}
+*/
 impl<const N:usize> Cell<N> where
 {
     fn new() -> Self {
@@ -23,7 +42,7 @@ impl<const N:usize> Cell<N> where
     }
     fn insert(&mut self, item:*mut Transform){
         if self.count<N{
-            self.data[self.count]=item;
+            self.data[self.count]=item as usize;
             self.count+=1;
         }
     }
@@ -67,7 +86,7 @@ impl<const N:usize> Grid2d<N>
         let cell = &self.cells[cell_id];
         for i in 0..cell.count{
             //self.collicion();
-            (self.collicion)(item,&mut*cell.data[i],self.callback);
+            (self.collicion)(item,&mut*(cell.data[i] as *mut Transform),self.callback);
         }
     }
 }

@@ -27,7 +27,7 @@ fn spawn_object(
     pos : Vec2,
     keys: & Res<Input<KeyCode>>,
 ){
-    if keys.pressed(KeyCode::Key1){
+    if keys.pressed(KeyCode::Key1) {
         commands.spawn((
             CircleBundle{
                 spatial: SpatialBundle{
